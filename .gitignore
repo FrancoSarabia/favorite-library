@@ -1,0 +1,37 @@
+## Build results
+bin/
+obj/
+
+## Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+
+## ASP.NET Core
+appsettings.Development.json
+appsettings.Production.json
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## EF Core
+Migrations/*.cs
+!Migrations/*.Designer.cs
+!Migrations/*Snapshot.cs

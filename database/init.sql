@@ -1,0 +1,30 @@
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'FavoriteLibraryDb')
+BEGIN
+    CREATE DATABASE FavoriteLibraryDb;
+END
+GO
+
+USE FavoriteLibraryDb;
+GO
+
+CREATE TABLE Books (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    Title NVARCHAR(150) NOT NULL,
+    FirstPublishYear DATETIME2 NOT NULL,
+    CoverUrl NVARCHAR(255)
+);
+
+CREATE TABLE Authors (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    Name NVARCHAR(150) NOT NULL
+);
+
+CREATE TABLE BookAuthors (
+    BookId UNIQUEIDENTIFIER NOT NULL,
+    AuthorId UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT PK_BookAuthors PRIMARY KEY (BookId, AuthorId),
+    CONSTRAINT FK_BookAuthors_Books 
+        FOREIGN KEY (BookId) REFERENCES Books(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_BookAuthors_Authors 
+        FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE CASCADE
+);
