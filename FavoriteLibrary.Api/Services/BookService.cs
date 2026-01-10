@@ -47,15 +47,5 @@ namespace FavoriteLibrary.Services
                 throw;
             }
         }
-
-        //public async Task<ExternalBookResponseDto?> GetBookByExternalIdAsync(OpenLibrarySearchBooksResponse externalBookId)
-        //{
-        //    var response = await _httpClient.GetAsync($"{externalBookId.TrimStart('/')}.json");
-        //    if (!response.IsSuccessStatusCode)
-        //        return null;
-
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    return JsonConvert.DeserializeObject<ExternalBookResponseDto>(content);
-        //}
     }
 }
