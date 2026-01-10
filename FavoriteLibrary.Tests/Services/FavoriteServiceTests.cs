@@ -25,24 +25,39 @@ public class FavoriteServiceTests
         var context = CreateDbContext();
         var service = new FavoriteService(context);
 
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            firstName = "Test",
+            lastName = "User",
+            userName = "testuser",
+            password = "hashed"
+        };
+
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+
         var dto = new AddFavoriteBookDto
         {
             ExternalId = "/works/OL45804W",
             Title = "Fantastic Mr Fox",
             FirstPublishYear = 1928,
             CoverUrl = "https://covers.openlibrary.org/b/id/15152634-S.jpg",
-            Authors = new List<string> { "Virginia Woolf" }
+            Authors = new List<string> { "Virginia Woolf" },
+            UserId = user.Id
         };
 
-        // Act
+        // Primera inserción OK
         await service.AddFavoriteAsync(dto);
 
+        // Act
         Func<Task> act = async () => await service.AddFavoriteAsync(dto);
 
         // Assert
         await act
             .Should()
             .ThrowAsync<InvalidOperationException>()
-            .WithMessage("El libro ya está agregado como favorito.");
+            .WithMessage("El libro ya está en favoritos del usuario.");
     }
+
 }
