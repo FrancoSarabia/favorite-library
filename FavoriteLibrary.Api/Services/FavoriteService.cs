@@ -35,6 +35,34 @@ namespace FavoriteLibrary.Services
             }).ToList();
         }
 
+        public async Task<List<FavoriteBookResponseDto>> GetFavoritesByUserAsync(Guid userId)
+        {
+            var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
+
+            if (!userExists)
+                throw new InvalidOperationException("Usuario no existe.");
+
+            var books = await _context.Books
+                .Include(b => b.Authors)
+                .Include(b => b.Users)
+                .Where(b => b.Users.Any(u => u.Id == userId))
+                .OrderBy(b => b.Title)
+                .ToListAsync();
+
+            return books.Select(b => new FavoriteBookResponseDto
+            {
+                Id = b.Id,
+                ExternalId = b.BookExternalId,
+                Title = b.Title,
+                FirstPublishYear = b.FirstPublishYear == DateTime.MinValue
+                    ? null
+                    : b.FirstPublishYear.Year,
+                CoverUrl = b.CoverUrl,
+                Authors = b.Authors.Select(a => a.Name).ToList(),
+                User = userId
+            }).ToList();
+        }
+
         public async Task<FavoriteBookResponseDto> AddFavoriteAsync(AddFavoriteBookDto dto)
         {
             var user = await _context.Users

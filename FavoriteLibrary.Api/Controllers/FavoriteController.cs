@@ -22,6 +22,20 @@ namespace FavoriteLibrary.Controllers
             return Ok(favorites);
         }
 
+        [HttpGet("user/{userId:guid}")]
+        public async Task<IActionResult> GetFavoritesByUser(Guid userId)
+        {
+            try
+            {
+                var favorites = await _service.GetFavoritesByUserAsync(userId);
+                return Ok(favorites);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddFavorite([FromBody] AddFavoriteBookDto dto)
         {
