@@ -37,11 +37,20 @@ namespace FavoriteLibrary.Services
 
         public async Task<FavoriteBookResponseDto> AddFavoriteAsync(AddFavoriteBookDto dto)
         {
+            var user = await _context.Users
+                .Include(u => u.Books)
+                .FirstOrDefaultAsync(u => u.Id == dto.UserId);
 
-            var existingBook = await _context.Books.AnyAsync(b => b.BookExternalId == dto.ExternalId);
+            if (user == null)
+                throw new InvalidOperationException("Usuario no existe.");
 
-            if (existingBook)
-                throw new InvalidOperationException("El libro ya está agregado como favorito.");
+            bool alreadyFavorite = await _context.Books
+                .AnyAsync(b =>
+                    b.BookExternalId == dto.ExternalId &&
+                    b.Users.Any(u => u.Id == dto.UserId));
+
+            if (alreadyFavorite)
+                throw new InvalidOperationException("El libro ya está en favoritos del usuario.");
 
             var authors = new List<Author>();
 
@@ -59,23 +68,29 @@ namespace FavoriteLibrary.Services
                 authors.Add(author);
             }
 
-            var book = new Book
+            var book = await _context.Books
+                .Include(b => b.Users)
+                .FirstOrDefaultAsync(b => b.BookExternalId == dto.ExternalId);
+
+            if (book == null)
             {
-                Title = dto.Title,
-                FirstPublishYear = dto.FirstPublishYear.HasValue
-                    ? new DateTime(dto.FirstPublishYear.Value, 1, 1)
-                    : DateTime.MinValue,
-                CoverUrl = dto.CoverUrl,
-                BookExternalId = dto.ExternalId,
-                Authors = authors
-            };
+                book = new Book
+                {
+                    Title = dto.Title,
+                    FirstPublishYear = dto.FirstPublishYear.HasValue
+                        ? new DateTime(dto.FirstPublishYear.Value, 1, 1)
+                        : DateTime.MinValue,
+                    CoverUrl = dto.CoverUrl,
+                    BookExternalId = dto.ExternalId,
+                    Authors = authors
+                };
 
-            _context.Books.Add(book);
+                _context.Books.Add(book);
+            }
+            book.Users.Add(user);
+
             await _context.SaveChangesAsync();
-
-            FavoriteBookResponseDto response = formatedCreateFavoriteResponse(book);
-
-            return response;
+            return formatedCreateFavoriteResponse(book, dto.UserId);
         }
 
         public async Task DeleteFavoriteAsync(Guid id)
@@ -91,7 +106,7 @@ namespace FavoriteLibrary.Services
             await _context.SaveChangesAsync();
         }
 
-        private static FavoriteBookResponseDto formatedCreateFavoriteResponse( Book book )
+        private static FavoriteBookResponseDto formatedCreateFavoriteResponse( Book book, Guid userId)
         {
             return new FavoriteBookResponseDto
             {
@@ -100,7 +115,8 @@ namespace FavoriteLibrary.Services
                 Title = book.Title,
                 FirstPublishYear = book.FirstPublishYear.Year,
                 CoverUrl = book.CoverUrl,
-                Authors = book.Authors.Select(a => a.Name).ToList()
+                Authors = book.Authors.Select(a => a.Name).ToList(),
+                User = userId
             };
         }
     }

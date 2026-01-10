@@ -18,5 +18,8 @@ namespace FavoriteLibrary.Dtos
         public List<string> Authors { get; set; } = new();
 
         public string? CoverUrl { get; set; }
+
+        [Required]
+        public Guid UserId { get; set; }
     }
 }

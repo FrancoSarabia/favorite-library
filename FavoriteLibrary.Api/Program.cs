@@ -18,6 +18,7 @@ builder.Services.AddHttpClient<IBookService, BookService>(client =>
 });
 
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

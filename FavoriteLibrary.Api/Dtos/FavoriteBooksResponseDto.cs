@@ -8,5 +8,6 @@
         public int? FirstPublishYear { get; set; }
         public string? CoverUrl { get; set; }
         public List<string> Authors { get; set; } = new();
+        public Guid User { get; set; } = new();
     }
 }

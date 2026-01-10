@@ -19,5 +19,7 @@ namespace FavoriteLibrary.Models
 
         public string BookExternalId { get; set; } = null!;
 
+        public ICollection<User> Users { get; set; } = new List<User>();
+
     }
 }
