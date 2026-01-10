@@ -20,9 +20,12 @@ namespace FavoriteLibrary.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search(
             [FromQuery] string? title,
-            [FromQuery] string? author)
+            [FromQuery] string? author,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10
+        )
         {
-            var result = await _service.GetAllBooksAsync(title, author);
+            var result = await _service.GetAllBooksAsync(title, author, page, pageSize);
             return Ok(result);
         }
     }

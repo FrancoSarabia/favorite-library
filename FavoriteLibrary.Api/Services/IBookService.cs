@@ -4,6 +4,11 @@ namespace FavoriteLibrary.Services
 {
     public interface IBookService
     {
-        Task<List<BookSearchResponseDto>> GetAllBooksAsync(string? title, string? author);
-    }
+        Task<PagedResultDto<BookSearchResponseDto>> GetAllBooksAsync(
+            string? title,
+            string? author,
+            int page = 1,
+            int pageSize = 10);
+        
+        }
 }

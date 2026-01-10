@@ -14,38 +14,47 @@ namespace FavoriteLibrary.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<BookSearchResponseDto>> GetAllBooksAsync (string? title, string? author)
+        public async Task<PagedResultDto<BookSearchResponseDto>> GetAllBooksAsync(
+            string? title,
+            string? author,
+            int page = 1,
+            int pageSize = 10
+        )
         {
-            try
+            if (string.IsNullOrWhiteSpace(title) && string.IsNullOrWhiteSpace(author))
+                throw new ArgumentException("Debe proporcionar title, author o ambos.");
+
+            var queryParams = new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(title))
+                queryParams.Add($"title={Uri.EscapeDataString(title)}");
+
+            if (!string.IsNullOrWhiteSpace(author))
+                queryParams.Add($"author={Uri.EscapeDataString(author)}");
+
+            queryParams.Add("fields=key,title,author_name,first_publish_year,cover_i");
+            queryParams.Add($"page={page}");
+            queryParams.Add($"limit={pageSize}");
+
+            var url = $"search.json?{string.Join("&", queryParams)}";
+
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var openLibraryResponse =
+                JsonSerializer.Deserialize<OpenLibrarySearchBooksResponse>(json);
+
+            return new PagedResultDto<BookSearchResponseDto>
             {
-                if (string.IsNullOrWhiteSpace(title) && string.IsNullOrWhiteSpace(author))
-                    throw new ArgumentException("Debe proporcionar title, author o ambos.");
-
-                var queryParams = new List<string>();
-
-                if (!string.IsNullOrWhiteSpace(title))
-                    queryParams.Add($"title={Uri.EscapeDataString(title)}");
-
-                if (!string.IsNullOrWhiteSpace(author))
-                    queryParams.Add($"author={Uri.EscapeDataString(author)}");
-
-                queryParams.Add("fields=key,title,author_name,first_publish_year,cover_i");
-
-                var url = $"search.json?{string.Join("&", queryParams)}";
-
-                var response = await _httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-
-                var json = await response.Content.ReadAsStringAsync();
-                var openLibraryResponse = JsonSerializer.Deserialize<OpenLibrarySearchBooksResponse>(json);
-
-                return openLibraryResponse?.Docs.Select(OpenLibraryBookMapper.ToBookSearchDto)
-                    .ToList() ?? new List<BookSearchResponseDto>();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+                Page = page,
+                PageSize = pageSize,
+                Total = openLibraryResponse?.NumFound ?? 0,
+                Items = openLibraryResponse?.Docs
+                    .Select(OpenLibraryBookMapper.ToBookSearchDto)
+                    .ToList() ?? new()
+            };
         }
+
     }
 }

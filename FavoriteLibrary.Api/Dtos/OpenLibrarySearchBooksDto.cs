@@ -6,6 +6,9 @@ namespace FavoriteLibrary.Dtos
     {
         [JsonPropertyName("docs")]
         public List<OpenLibraryBookDto> Docs { get; set; } = new();
+
+        [JsonPropertyName("numFound")]
+        public int NumFound { get; set; }
     }
     public class OpenLibraryBookDto
     {
