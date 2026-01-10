@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FavoriteLibrary.Models
 {
-    [Table("User")]
     public class User
     {
         [Key]
