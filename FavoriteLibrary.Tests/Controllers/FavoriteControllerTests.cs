@@ -1,6 +1,6 @@
 ﻿using FavoriteLibrary.Controllers;
-using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Services;
+using FavoriteLibrary.Core.Favorites.Dtos;
+using FavoriteLibrary.Core.Favorites.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

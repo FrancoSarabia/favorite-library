@@ -1,4 +1,4 @@
-﻿namespace FavoriteLibrary.Dtos
+﻿namespace FavoriteLibrary.Core.Books.Dtos
 {
     public class BookSearchResponseDto
     {

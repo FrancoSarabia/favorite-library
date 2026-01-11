@@ -1,6 +1,6 @@
-﻿using FavoriteLibrary.Dtos;
+﻿using FavoriteLibrary.Core.Books.Dtos;
 
-namespace FavoriteLibrary.Mappers
+namespace FavoriteLibrary.Core.Books.Mappers
 {
     public static class OpenLibraryBookMapper
     {

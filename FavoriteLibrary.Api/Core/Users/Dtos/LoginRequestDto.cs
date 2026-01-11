@@ -1,4 +1,4 @@
-﻿namespace FavoriteLibrary.Dtos
+﻿namespace FavoriteLibrary.Core.Users.Dtos
 {
     public class LoginRequestDto
     {

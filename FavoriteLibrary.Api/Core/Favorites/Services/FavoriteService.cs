@@ -1,9 +1,11 @@
-﻿using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Models;
+﻿using FavoriteLibrary.Core.Common.Dtos;
+using FavoriteLibrary.Core.Common.Models;
+using FavoriteLibrary.Core.Favorites.Dtos;
+using FavoriteLibrary.Core.Favorites.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FavoriteLibrary.Services
+namespace FavoriteLibrary.Core.Favorites.Services
 {
     public class FavoriteService : IFavoriteService
     {

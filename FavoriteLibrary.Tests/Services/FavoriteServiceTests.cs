@@ -1,9 +1,9 @@
-﻿using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Models;
-using FavoriteLibrary.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
 using Xunit;
+using FavoriteLibrary.Core.Favorites.Services;
+using FavoriteLibrary.Core.Users.Models;
+using FavoriteLibrary.Core.Favorites.Dtos;
 
 namespace FavoriteLibrary.Tests;
 

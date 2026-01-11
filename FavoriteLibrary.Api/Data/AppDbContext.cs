@@ -1,4 +1,6 @@
-﻿using FavoriteLibrary.Models;
+﻿using FavoriteLibrary.Core.Common.Models;
+using FavoriteLibrary.Core.Favorites.Models;
+using FavoriteLibrary.Core.Users.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class AppDbContext : DbContext

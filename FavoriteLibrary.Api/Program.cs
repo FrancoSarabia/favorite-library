@@ -1,4 +1,6 @@
-using FavoriteLibrary.Services;
+using FavoriteLibrary.Core.Books.Services;
+using FavoriteLibrary.Core.Favorites.Services;
+using FavoriteLibrary.Core.Users.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

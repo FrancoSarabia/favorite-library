@@ -1,9 +1,9 @@
-﻿using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Models;
+﻿using FavoriteLibrary.Core.Users.Dtos;
+using FavoriteLibrary.Core.Users.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace FavoriteLibrary.Services
+namespace FavoriteLibrary.Core.Users.Services
 {
     public class UserService : IUserService
     {

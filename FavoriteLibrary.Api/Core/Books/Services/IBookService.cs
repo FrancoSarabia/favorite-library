@@ -1,6 +1,7 @@
-﻿using FavoriteLibrary.Dtos;
+﻿using FavoriteLibrary.Core.Books.Dtos;
+using FavoriteLibrary.Core.Common.Dtos;
 
-namespace FavoriteLibrary.Services
+namespace FavoriteLibrary.Core.Books.Services
 {
     public interface IBookService
     {

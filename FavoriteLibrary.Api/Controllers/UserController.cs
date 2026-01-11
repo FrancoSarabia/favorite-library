@@ -1,9 +1,9 @@
 ﻿
-    using FavoriteLibrary.Dtos;
-    using FavoriteLibrary.Services;
-    using Microsoft.AspNetCore.Mvc;
+using FavoriteLibrary.Core.Users.Dtos;
+using FavoriteLibrary.Core.Users.Services;
+using Microsoft.AspNetCore.Mvc;
 
-    namespace FavoriteLibrary.Controllers
+namespace FavoriteLibrary.Controllers
     {
         [ApiController]
         [Route("api/users")]

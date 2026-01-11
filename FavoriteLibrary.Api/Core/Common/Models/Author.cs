@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FavoriteLibrary.Core.Favorites.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace FavoriteLibrary.Models
+namespace FavoriteLibrary.Core.Common.Models
 {
     public class Author
     {

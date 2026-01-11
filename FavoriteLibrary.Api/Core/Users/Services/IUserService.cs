@@ -1,6 +1,6 @@
-﻿using FavoriteLibrary.Dtos;
+﻿using FavoriteLibrary.Core.Users.Dtos;
 
-namespace FavoriteLibrary.Services
+namespace FavoriteLibrary.Core.Users.Services
 {
     public interface IUserService
     {

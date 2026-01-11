@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FavoriteLibrary.Core.Common.Models;
+using FavoriteLibrary.Core.Users.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace FavoriteLibrary.Models
+namespace FavoriteLibrary.Core.Favorites.Models
 {
     public class Book
     {

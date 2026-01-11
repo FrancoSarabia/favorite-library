@@ -1,5 +1,5 @@
-﻿using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Services;
+﻿using FavoriteLibrary.Core.Favorites.Dtos;
+using FavoriteLibrary.Core.Favorites.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FavoriteLibrary.Controllers

@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FavoriteLibrary.Core.Favorites.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FavoriteLibrary.Models
+namespace FavoriteLibrary.Core.Users.Models
 {
     public class User
     {

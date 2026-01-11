@@ -1,5 +1,4 @@
-﻿using FavoriteLibrary.Models;
-using FavoriteLibrary.Services;
+﻿using FavoriteLibrary.Core.Books.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

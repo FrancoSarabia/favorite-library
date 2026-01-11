@@ -1,5 +1,5 @@
-﻿    using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Mappers;
+﻿using FavoriteLibrary.Core.Books.Dtos;
+using FavoriteLibrary.Core.Books.Mappers;
 using FluentAssertions;
 using Xunit;
 

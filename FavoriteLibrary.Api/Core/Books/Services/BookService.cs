@@ -1,9 +1,10 @@
-﻿using FavoriteLibrary.Dtos;
-using FavoriteLibrary.Mappers;
+﻿using FavoriteLibrary.Core.Books.Dtos;
+using FavoriteLibrary.Core.Books.Mappers;
+using FavoriteLibrary.Core.Common.Dtos;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace FavoriteLibrary.Services
+namespace FavoriteLibrary.Core.Books.Services
 {
     public class BookService : IBookService
     {

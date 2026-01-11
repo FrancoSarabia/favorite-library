@@ -1,4 +1,4 @@
-﻿namespace FavoriteLibrary.Dtos
+﻿namespace FavoriteLibrary.Core.Common.Dtos
 {
     public class PagedResultDto<T>
     {
