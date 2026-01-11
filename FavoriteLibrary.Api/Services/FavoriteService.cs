@@ -63,6 +63,49 @@ namespace FavoriteLibrary.Services
             }).ToList();
         }
 
+        public async Task<PagedResultDto<FavoriteBookResponseDto>> GetFavoritesByUserPaginatedAsync(Guid userId, int page,int pageSize)
+        {
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 10;
+
+            var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
+            if (!userExists)
+                throw new InvalidOperationException("Usuario no existe.");
+
+            var query = _context.Books
+                .Include(b => b.Authors)
+                .Include(b => b.Users)
+                .Where(b => b.Users.Any(u => u.Id == userId));
+
+            var totalItems = await query.CountAsync();
+
+            var books = await query
+                .OrderBy(b => b.Title)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedResultDto<FavoriteBookResponseDto>
+            {
+                Page = page,
+                PageSize = pageSize,
+                Total = totalItems,
+                Items = books.Select(b => new FavoriteBookResponseDto
+                {
+                    Id = b.Id,
+                    ExternalId = b.BookExternalId,
+                    Title = b.Title,
+                    FirstPublishYear = b.FirstPublishYear == DateTime.MinValue
+                        ? null
+                        : b.FirstPublishYear.Year,
+                    CoverUrl = b.CoverUrl,
+                    Authors = b.Authors.Select(a => a.Name).ToList(),
+                    User = userId
+                }).ToList()
+            };
+        }
+
+
         public async Task<FavoriteBookResponseDto> AddFavoriteAsync(AddFavoriteBookDto dto)
         {
             var user = await _context.Users

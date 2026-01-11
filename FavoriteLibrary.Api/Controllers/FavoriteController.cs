@@ -36,6 +36,24 @@ namespace FavoriteLibrary.Controllers
             }
         }
 
+        [HttpGet("user-paginated/{userId:guid}")]
+        public async Task<IActionResult> GetFavoritesByUserPaginated(
+            Guid userId,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10
+)
+        {
+            try
+            {
+                var favorites = await _service.GetFavoritesByUserPaginatedAsync(userId, page, pageSize);
+                return Ok(favorites);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddFavorite([FromBody] AddFavoriteBookDto dto)
         {
