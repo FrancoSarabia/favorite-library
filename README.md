@@ -42,7 +42,7 @@ password: `admin123`
 
 ### 🔌 Connection String
 
-El archivo appsettings.json contiene el siguiente connection string:
+En el archivo appsettings.json agregar la siguiente cadena de conexión:
 
 ```bash
 "ConnectionStrings": {
