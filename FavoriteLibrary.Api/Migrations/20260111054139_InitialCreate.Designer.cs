@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FavoriteLibrary.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260110011157_FixBookUserJoinTable")]
-    partial class FixBookUserJoinTable
+    [Migration("20260111054139_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,23 +54,29 @@ namespace FavoriteLibrary.Migrations
                     b.ToTable("BookUsers", (string)null);
                 });
 
-            modelBuilder.Entity("FavoriteLibrary.Models.Author", b =>
+            modelBuilder.Entity("FavoriteLibrary.Core.Common.Models.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("FavoriteLibrary.Models.Book", b =>
+            modelBuilder.Entity("FavoriteLibrary.Core.Favorites.Models.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,6 +89,9 @@ namespace FavoriteLibrary.Migrations
                     b.Property<string>("CoverUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("FirstPublishYear")
                         .HasColumnType("datetime2");
 
@@ -91,16 +100,25 @@ namespace FavoriteLibrary.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("FavoriteLibrary.Models.User", b =>
+            modelBuilder.Entity("FavoriteLibrary.Core.Users.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("firstName")
                         .IsRequired()
@@ -123,18 +141,18 @@ namespace FavoriteLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("BookAuthors", b =>
                 {
-                    b.HasOne("FavoriteLibrary.Models.Author", null)
+                    b.HasOne("FavoriteLibrary.Core.Common.Models.Author", null)
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FavoriteLibrary.Models.Book", null)
+                    b.HasOne("FavoriteLibrary.Core.Favorites.Models.Book", null)
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -143,13 +161,13 @@ namespace FavoriteLibrary.Migrations
 
             modelBuilder.Entity("BookUser", b =>
                 {
-                    b.HasOne("FavoriteLibrary.Models.Book", null)
+                    b.HasOne("FavoriteLibrary.Core.Favorites.Models.Book", null)
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FavoriteLibrary.Models.User", null)
+                    b.HasOne("FavoriteLibrary.Core.Users.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
