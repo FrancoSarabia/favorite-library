@@ -57,3 +57,13 @@ El archivo appsettings.json contiene el siguiente connection string:
   "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=FavoriteLibraryDb;Trusted_Connection=True;TrustServerCertificate=True"
 }
 ```
+
+### Host del proyecto
+
+Por defecto el proyecto de angular es `http://localhost:4200`, pero si se usa otro host modificar esta instrucción en el appsettings.json:
+
+```bash
+"CorsSettings": {
+  "AllowedOrigins": [ "http://localhost:4200" ]
+}
+```
