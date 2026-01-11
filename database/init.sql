@@ -20,7 +20,10 @@ CREATE TABLE Users (
     FirstName NVARCHAR(150) NOT NULL,
     LastName NVARCHAR(150) NOT NULL,
     UserName NVARCHAR(15) NOT NULL UNIQUE,
-    Password NVARCHAR(255) NOT NULL
+    Password NVARCHAR(255) NOT NULL,
+    -- Campos de auditoría
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
 -- BOOKS
@@ -29,18 +32,26 @@ CREATE TABLE Books (
     Title NVARCHAR(150) NOT NULL,
     FirstPublishYear DATETIME2 NOT NULL,
     CoverUrl NVARCHAR(255),
-    BookExternalId NVARCHAR(100) NOT NULL UNIQUE
+    BookExternalId NVARCHAR(100) NOT NULL UNIQUE,
+    -- Campos de auditoría
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
 -- AUTHORS
 CREATE TABLE Authors (
     Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-    Name NVARCHAR(150) NOT NULL
+    Name NVARCHAR(150) NOT NULL,
+    -- Campos de auditoría
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
 -- ===============================
 -- JOIN TABLES
 -- ===============================
+-- Nota: Las tablas intermedias (N:N) generalmente no llevan CreatedAt/UpdatedAt 
+-- a menos que necesites saber cuándo se creó la relación específicamente.
 
 -- BOOK ↔ AUTHOR (N:N)
 CREATE TABLE BookAuthors (
@@ -65,43 +76,30 @@ CREATE TABLE BookUsers (
 );
 
 -- ===============================
--- SEED DATA
+-- SEED DATA (Actualizado con fechas)
 -- ===============================
 
 DECLARE @UserId UNIQUEIDENTIFIER = NEWID();
 DECLARE @BookId UNIQUEIDENTIFIER = NEWID();
 DECLARE @AuthorId UNIQUEIDENTIFIER = NEWID();
+DECLARE @Now DATETIME2 = SYSUTCDATETIME();
 
 -- USER
-INSERT INTO Users (Id, FirstName, LastName, UserName, Password)
+INSERT INTO Users (Id, FirstName, LastName, UserName, Password, CreatedAt, UpdatedAt)
 VALUES (
-    @UserId,
-    'Test',
-    'User',
-    'testuser',
-    '$2a$11$XQ4q5mQy6nK2xJYzqP0xCO1ZbZ2W8yW5MZJZP8n4u1xkZPZ5J0OqS' -- bcrypt dummy
+    @UserId, 'Test', 'User', 'testuser', 
+    '$2a$11$XQ4q5mQy6nK2xJYzqP0xCO1ZbZ2W8yW5MZJZP8n4u1xkZPZ5J0OqS', 
+    @Now, @Now
 );
 
 -- AUTHOR
-INSERT INTO Authors (Id, Name)
-VALUES (
-    @AuthorId,
-    'George Orwell'
-);
+INSERT INTO Authors (Id, Name, CreatedAt, UpdatedAt)
+VALUES (@AuthorId, 'George Orwell', @Now, @Now);
 
 -- BOOK
-INSERT INTO Books (Id, Title, FirstPublishYear, CoverUrl, BookExternalId)
-VALUES (
-    @BookId,
-    '1984',
-    '1949-01-01',
-    NULL,
-    'OL123456W'
-);
+INSERT INTO Books (Id, Title, FirstPublishYear, CoverUrl, BookExternalId, CreatedAt, UpdatedAt)
+VALUES (@BookId, '1984', '1949-01-01', NULL, 'OL123456W', @Now, @Now);
 
 -- RELATIONS
-INSERT INTO BookAuthors (BookId, AuthorId)
-VALUES (@BookId, @AuthorId);
-
-INSERT INTO BookUsers (BookId, UserId)
-VALUES (@BookId, @UserId);
+INSERT INTO BookAuthors (BookId, AuthorId) VALUES (@BookId, @AuthorId);
+INSERT INTO BookUsers (BookId, UserId) VALUES (@BookId, @UserId);

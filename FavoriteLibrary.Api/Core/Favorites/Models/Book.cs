@@ -1,10 +1,11 @@
-﻿using FavoriteLibrary.Core.Common.Models;
+﻿using FavoriteLibrary.Core.Common.Interfaces;
+using FavoriteLibrary.Core.Common.Models;
 using FavoriteLibrary.Core.Users.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace FavoriteLibrary.Core.Favorites.Models
 {
-    public class Book
+    public class Book : IAuditable
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -22,6 +23,9 @@ namespace FavoriteLibrary.Core.Favorites.Models
         public string BookExternalId { get; set; } = null!;
 
         public ICollection<User> Users { get; set; } = new List<User>();
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
     }
 }
