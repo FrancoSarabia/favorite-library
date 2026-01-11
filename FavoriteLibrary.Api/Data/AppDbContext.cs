@@ -66,8 +66,6 @@ public class AppDbContext : DbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Buscamos todas las entidades que hereden de IAuditable 
-        // y que estén siendo insertadas o modificadas
         var entries = ChangeTracker
             .Entries()
             .Where(e => e.Entity is IAuditable && (
@@ -76,15 +74,13 @@ public class AppDbContext : DbContext
 
         foreach (var entityEntry in entries)
         {
-            var now = DateTime.UtcNow; // Usar siempre UTC es buena práctica
+            var now = DateTime.UtcNow;
 
-            // Si es una inserción (Add), seteamos CreatedAt
             if (entityEntry.State == EntityState.Added)
             {
                 ((IAuditable)entityEntry.Entity).CreatedAt = now;
             }
 
-            // Siempre seteamos el UpdatedAt en inserción o edición
             ((IAuditable)entityEntry.Entity).UpdatedAt = now;
         }
 
