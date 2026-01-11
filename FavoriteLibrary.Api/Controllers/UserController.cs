@@ -49,5 +49,26 @@
 
                 return Ok(user);
             }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.UserName) ||
+                string.IsNullOrWhiteSpace(dto.Password))
+            {
+                return BadRequest("Username y password son obligatorios");
+            }
+
+            try
+            {
+                var user = await _userService.LoginAsync(dto);
+                return Ok(user);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
         }
+
     }
+}

@@ -6,5 +6,7 @@ namespace FavoriteLibrary.Services
     {
         Task<CreateUserResponseDto> AddUserAsync(CreateUserDto dto);
         Task<CreateUserResponseDto?> GetUserByIdAsync(Guid id);
+
+        Task<CreateUserResponseDto> LoginAsync(LoginRequestDto dto);
     }
 }

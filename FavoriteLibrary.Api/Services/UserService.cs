@@ -56,5 +56,28 @@ namespace FavoriteLibrary.Services
                 userName = user.userName
             };
         }
+
+        public async Task<CreateUserResponseDto> LoginAsync(LoginRequestDto dto)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.userName == dto.UserName);
+
+            if (user == null)
+                throw new InvalidOperationException("Credenciales incorrectas");
+
+            bool passwordValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.password);
+
+            if (!passwordValid)
+                throw new InvalidOperationException("Credenciales incorrectas");
+
+            return new CreateUserResponseDto
+            {
+                Id = user.Id,
+                firstName = user.firstName,
+                lastName = user.lastName,
+                userName = user.userName
+            };
+        }
+
     }
 }
