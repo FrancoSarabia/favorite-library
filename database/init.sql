@@ -47,12 +47,6 @@ CREATE TABLE Authors (
     UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
--- ===============================
--- JOIN TABLES
--- ===============================
--- Nota: Las tablas intermedias (N:N) generalmente no llevan CreatedAt/UpdatedAt 
--- a menos que necesites saber cuándo se creó la relación específicamente.
-
 -- BOOK ↔ AUTHOR (N:N)
 CREATE TABLE BookAuthors (
     BookId UNIQUEIDENTIFIER NOT NULL,
