@@ -9,22 +9,6 @@
 git clone https://github.com/FrancoSarabia/favorite-library.git
 ```
 
-### Ejecutar Tests
-
-1. Desde la carpeta del proyecto de tests:
-
-```bash
-cd FavoriteLibrary/FavoriteLibrary.Tests
-```
-o desde la raiz del proyecto ejecutar el siguiente comando:
-```bash
-dotnet test
-```
-dando como resultado lo siguiente:
-```bash
-Test summary: total: 6, failed: 0, succeeded: 6, skipped: 0,
-```
-
 ## 🗄️ Configuración de Base de Datos
 
 El proyecto utiliza SQL Server local.  
@@ -48,6 +32,14 @@ Desde la raíz del proyecto ejecutar:
 ```bash
 sqlcmd -S localhost\SQLEXPRESS -E -i database/init.sql
 ```
+
+### Credenciales generadas
+
+```bash
+user: `testuser`
+password: `admin123`
+```
+
 ### 🔌 Connection String
 
 El archivo appsettings.json contiene el siguiente connection string:
@@ -66,4 +58,21 @@ Por defecto el proyecto de angular es `http://localhost:4200`, pero si se usa ot
 "CorsSettings": {
   "AllowedOrigins": [ "http://localhost:4200" ]
 }
+```
+
+
+## Ejecutar Tests
+
+1. Desde la carpeta del proyecto de tests:
+
+```bash
+cd FavoriteLibrary/FavoriteLibrary.Tests
+```
+o desde la raiz del proyecto ejecutar el siguiente comando:
+```bash
+dotnet test
+```
+dando como resultado lo siguiente:
+```bash
+Test summary: total: 6, failed: 0, succeeded: 6, skipped: 0,
 ```
